@@ -14,6 +14,7 @@ public class MenschHaupt {
         objekt2.abnehmen(2.6);
 
 
+        System.out.println("");
         System.out.println("BMI von " + objekt1.name + " ist " + objekt1.errechnenBmi());
         System.out.println("BMI von " + objekt2.name + " ist " + objekt2.errechnenBmi());
 
