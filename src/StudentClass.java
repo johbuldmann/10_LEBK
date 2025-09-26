@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class StudentClass {
@@ -29,7 +28,7 @@ public class StudentClass {
         if (students.isEmpty()) {
             throw new IllegalStateException("No Students in the class.");
         }
-        Student bestStudent = students.get(0);
+        Student bestStudent = students.getFirst();
 
         for (Student s : students) {
             if (s.getNote() < bestStudent.getNote()) {
@@ -43,7 +42,7 @@ public class StudentClass {
         if (students.isEmpty()) {
             throw new IllegalStateException("No Students in the class.");
         }
-        Student worstStudent = students.get(0);
+        Student worstStudent = students.getFirst();
 
         for (Student s : students){
             if (s.getNote() > worstStudent.getNote()) {
