@@ -20,6 +20,7 @@ public class StudentClass {
 
         for (Student note : students) {
             sum += note.getNote();
+            sum += 1;
         }
         return sum / students.size();
     }
