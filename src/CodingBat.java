@@ -54,6 +54,7 @@ public class CodingBat {
                 output[counter++] = nums[i];
             }
         }
+
         return output;
     }
 
@@ -61,4 +62,73 @@ public class CodingBat {
         return (num >= 0 && num <= 10 || num >= 90 && num <= 100);
     }
 
+
+
+
+    public static int userCompare(String aName, int aID, String bName, int bID) {
+
+        return aID;
+    }
+
+    public boolean hasOne(int n) {
+        int lastDigit;
+
+        while (n > 0) {
+            lastDigit = n % 10;
+            if (lastDigit == 1) {
+                return true;
+
+            }
+            n = n / 10;
+        }
+        return false;
+    }
+
+    public static boolean scoresClump(int[] scores) {
+        boolean test = false;
+        for (int i = 0; i < scores.length - 2; i++) {
+
+            for (int j = 0; j <= 2; j++) {
+                if ((Math.abs(scores[i] - scores[i + j])) < 2) {
+                    test = true;
+                } else {
+                    test = false;
+                }
+            }
+            if (test == true) {
+                break;
+            }
+
+        }
+        return test;
+    }
+
+    public String[] fizzArray2(int n) {
+        String[] resultingArray = new String[n];
+        if (resultingArray.length == 0) {
+            return resultingArray;
+        }
+
+        for (int i = 0; i < n; i++) {
+            resultingArray[i] = String.valueOf(i);
+        }
+
+        return resultingArray;
+    }
+
+//    public boolean modThree(int[] nums) {
+//
+//    }
+
+    public static void main(String[] args) {
+//        System.out.println(userCompare("bb", 1, "zz", 2));
+        int[] test = {3,4,6};
+        System.out.println(scoresClump(test));
+    }
+
 }
+
+
+
+
+
