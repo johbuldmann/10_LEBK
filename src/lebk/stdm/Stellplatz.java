@@ -14,7 +14,7 @@ public class Stellplatz {
     // das ist ein Testfall
 
     public String ausgeben() {
-        return String.format("Auf Platz " + this.nummerStellplatz + " stehen " + artikel.gesamtgewicht() + " kg " + artikel.artikelbezeichnung);
+        return "Auf Platz " + this.nummerStellplatz + " stehen " + artikel.gesamtgewicht() + " kg " + artikel.artikelbezeichnung;
     }
 
     public void pruefenGewicht() {

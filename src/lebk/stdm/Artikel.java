@@ -2,7 +2,6 @@ package lebk.stdm;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -11,17 +10,18 @@ public class Artikel {
     public String artikelbezeichnung;
     public int bestand;
     public double nettopreis;
-    public double kgProSck;
-    public int steuersatz;
+    public double kgProStueck;
+    public final int steuersatz;
 //    private DecimalFormat df;
     private final NumberFormat cf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
 
+
     // Konstruktor
-    public Artikel(String artikelbezeichnung, int bestand, double nettopreis, double kgProSck, int steuersatz) {
+    public Artikel(String artikelbezeichnung, int bestand, double nettopreis, double kgProStueck, int steuersatz) {
         this.artikelbezeichnung = artikelbezeichnung;
         this.bestand = bestand;
         this.nettopreis = nettopreis;
-        this.kgProSck = kgProSck;
+        this.kgProStueck = kgProStueck;
         this.steuersatz = steuersatz;
 //        this.df = new DecimalFormat("#,##0.00 €");    // Euro Format
     }
@@ -35,13 +35,13 @@ public class Artikel {
     public void ausgebenInformationen(int liefermenge) {
         double stueckPreisBrutto = holenBruttopreis();
         double gesamtWert = berechnePreisPosition(liefermenge);
-        System.out.println("Liefermenge " + this.artikelbezeichnung + ": " + this.bestand);
+        System.out.println("Liefermenge " + this.artikelbezeichnung + ": " + liefermenge);
         System.out.println("Die Lieferung des Artikels \"" + artikelbezeichnung + "\" hat eine Menge von " + liefermenge + " Stück.");
         System.out.println("Mit einem Stückpreis von " + cf.format(stueckPreisBrutto) + " und einem Gesamtwert von " + cf.format(gesamtWert) + ".\n");
     }
 
     public double gesamtgewicht() {
-        return this.bestand * this.kgProSck;
+        return this.bestand * this.kgProStueck;
     }
 
     public double holenBruttopreis() {

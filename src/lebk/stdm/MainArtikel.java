@@ -35,5 +35,11 @@ public class MainArtikel {
         System.out.println(platz1.ausgeben());
         System.out.println(platz2.ausgeben());
         System.out.println(platz3.ausgeben());
+
+        // eigentlich auch nach dem Umlagern Gewicht prüfen??
+//        System.out.println();
+//        platz1.pruefenGewicht();
+//        platz2.pruefenGewicht();
+//        platz3.pruefenGewicht();
     }
 }
