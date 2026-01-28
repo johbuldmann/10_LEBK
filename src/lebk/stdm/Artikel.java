@@ -14,7 +14,7 @@ public class Artikel {
     public double kgProSck;
     public int steuersatz;
 //    private DecimalFormat df;
-    private NumberFormat cf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+    private final NumberFormat cf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
 
     // Konstruktor
     public Artikel(String artikelbezeichnung, int bestand, double nettopreis, double kgProSck, int steuersatz) {
@@ -35,8 +35,13 @@ public class Artikel {
     public void ausgebenInformationen(int liefermenge) {
         double stueckPreisBrutto = holenBruttopreis();
         double gesamtWert = berechnePreisPosition(liefermenge);
+        System.out.println("Liefermenge " + this.artikelbezeichnung + ": " + this.bestand);
         System.out.println("Die Lieferung des Artikels \"" + artikelbezeichnung + "\" hat eine Menge von " + liefermenge + " Stück.");
-        System.out.println("Mit einem Stückpreis von " + cf.format(stueckPreisBrutto) + " und einem Gesamtwert von " + cf.format(gesamtWert) + ".");
+        System.out.println("Mit einem Stückpreis von " + cf.format(stueckPreisBrutto) + " und einem Gesamtwert von " + cf.format(gesamtWert) + ".\n");
+    }
+
+    public double gesamtgewicht() {
+        return this.bestand * this.kgProSck;
     }
 
     public double holenBruttopreis() {

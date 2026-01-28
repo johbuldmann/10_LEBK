@@ -1,5 +1,7 @@
 package lebk.stdm;
 
+import java.util.Arrays;
+
 public class Box {
     private double breite;
     private double hoehe;
@@ -51,10 +53,28 @@ public class Box {
 
     // Box passt in Box?
     public boolean passtIn(Box aeussereBox){
-        return (this.breite < aeussereBox.getBreite() && this.laenge < aeussereBox.getLaenge() && this.hoehe < aeussereBox.getHoehe());
+        return (this.breite <= aeussereBox.getBreite() && this.laenge <= aeussereBox.getLaenge() && this.hoehe <= aeussereBox.getHoehe());
     }
 
-    // public Box groessereBox();
+    public boolean passtInRotation(Box aeussereBox) {
+        double[] innerBox = {this.breite, this.hoehe, this.laenge};
+        double[] outerBox = {aeussereBox.getBreite(), aeussereBox.getHoehe(), aeussereBox.getLaenge()};
+
+        Arrays.sort(innerBox);
+        Arrays.sort(outerBox);
+
+//        for (int i = 0; i < innerBox.length; i++) {
+//            if (innerBox[i] > outerBox[i]) {
+//                return false;
+//            }
+//        }
+//        return true;
+
+        // oder alternativ
+        return (innerBox[0] <= outerBox[0] && innerBox[1] <= outerBox[1] && innerBox[2] <= outerBox[2]);
+    }
+
+    // public Box groessereBox(); – und kleinereBox();
     public Box groessereBox(){
         return new Box(this.breite * 1.25, this.hoehe * 1.25, this.laenge * 1.25);
     }
@@ -98,4 +118,13 @@ public class Box {
         this.laenge = laenge;
     }
 
+}
+
+class Test{
+
+    int test;
+
+    public Test(int test) {
+        this.test = test;
+    }
 }
