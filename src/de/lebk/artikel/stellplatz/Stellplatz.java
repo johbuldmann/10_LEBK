@@ -1,4 +1,4 @@
-package lebk.stdm;
+package de.lebk.artikel.stellplatz;
 
 public class Stellplatz {
     private String nummerStellplatz;

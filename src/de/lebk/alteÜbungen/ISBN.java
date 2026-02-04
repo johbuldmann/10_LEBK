@@ -1,3 +1,5 @@
+package de.lebk.alteÜbungen;
+
 public class ISBN {
     public static void main(String[] args) {
 //        String isbn = "3-87791-896-4";  // hier läuft es korrekt und die Prüfziffer 4 wird ausgegeben.

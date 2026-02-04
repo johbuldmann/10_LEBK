@@ -1,3 +1,5 @@
+package de.lebk.alteÜbungen;
+
 public class Tier {
 
     private String art;

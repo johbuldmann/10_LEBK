@@ -1,4 +1,4 @@
-package lebk.stdm;
+package de.lebk.artikel.stellplatz;
 
 import java.util.Arrays;
 

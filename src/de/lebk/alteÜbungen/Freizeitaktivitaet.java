@@ -1,3 +1,5 @@
+package de.lebk.alteÜbungen;
+
 public class Freizeitaktivitaet {
     double preisOhneRabatt;
     double rabattsatz;

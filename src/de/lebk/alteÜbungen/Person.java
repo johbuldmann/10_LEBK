@@ -1,6 +1,4 @@
-package lebk.stdm;
-
-import java.text.DecimalFormat;
+package de.lebk.alteÜbungen;
 
 public class Person {
 

@@ -1,4 +1,6 @@
-package lebk.stdm;
+package de.lebk.artikel.stellplatz;
+
+import java.util.Arrays;
 
 public class MainArtikel {
 
@@ -41,5 +43,17 @@ public class MainArtikel {
 //        platz1.pruefenGewicht();
 //        platz2.pruefenGewicht();
 //        platz3.pruefenGewicht();
+        System.out.println("\n=================");
+        int[] arr = new int[3];
+        System.out.println(arr[0]);
+
+        int[][] arrC = {{1, 2, 3}, {4, 5, 6, 7, 8}, {0}};
+        System.out.println(Arrays.deepToString(arrC));
+
+        String[] strArr = new String[3];
+        System.out.println(strArr[0]);
+
+
+
     }
 }

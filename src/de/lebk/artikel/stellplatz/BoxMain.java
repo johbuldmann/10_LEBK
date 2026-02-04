@@ -1,4 +1,4 @@
-package lebk.stdm;
+package de.lebk.artikel.stellplatz;
 
 public class BoxMain {
     public static void main(String[] args) {

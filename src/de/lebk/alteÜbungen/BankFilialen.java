@@ -1,3 +1,5 @@
+package de.lebk.alteÜbungen;
+
 public class BankFilialen {
     public static void main(String[] args) {
         Filiale koeln = new Filiale("Köln", 20000, 30000, 40000, 50000);

@@ -1,4 +1,4 @@
-package lebk.stdm;
+package de.lebk.alteÜbungen;
 
 public class MenschHaupt {
     public static void main(String[] args) {

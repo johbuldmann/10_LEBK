@@ -1,3 +1,5 @@
+package de.lebk.alteÜbungen;
+
 import java.util.Comparator;
 
 public class Filiale {

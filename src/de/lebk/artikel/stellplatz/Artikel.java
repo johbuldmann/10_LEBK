@@ -1,4 +1,4 @@
-package lebk.stdm;
+package de.lebk.artikel.stellplatz;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,7 +11,7 @@ public class Artikel {
     public int bestand;
     public double nettopreis;
     public double kgProStueck;
-    public final int steuersatz;
+    public final int STEUERSATZ;
 //    private DecimalFormat df;
     private final NumberFormat cf = NumberFormat.getCurrencyInstance(Locale.GERMANY);
 
@@ -22,7 +22,7 @@ public class Artikel {
         this.bestand = bestand;
         this.nettopreis = nettopreis;
         this.kgProStueck = kgProStueck;
-        this.steuersatz = steuersatz;
+        this.STEUERSATZ = steuersatz;
 //        this.df = new DecimalFormat("#,##0.00 €");    // Euro Format
     }
 
@@ -45,7 +45,7 @@ public class Artikel {
     }
 
     public double holenBruttopreis() {
-        double bruttopreis = this.nettopreis * (1 + (double) steuersatz / 100);
+        double bruttopreis = this.nettopreis * (1 + (double) STEUERSATZ / 100);
 
         BigDecimal bd = new BigDecimal(bruttopreis);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
