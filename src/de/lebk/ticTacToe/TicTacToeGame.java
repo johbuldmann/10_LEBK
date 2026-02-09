@@ -8,9 +8,15 @@ public class TicTacToeGame {
     private boolean gameOn = true;
     private Scanner sc = new Scanner(System.in);
 
-    public TicTacToeGame(TicTacToePlayingField field) {
-        this.field = field;
+    public TicTacToeGame() {
+        this.field = new TicTacToePlayingField();
     }
+
+
+
+    // todo: überladene play methode für random start? x = x startet, o = o startet, r = random start
+    //  Problem: Anzahl der Spielzüge dann unklar bzw off by one wenn ich zufällig bei 1 oder 0 starte..
+    //  -> Startvalue separat speichern und dann relativ dazu die Spielzüge zähle n?
 
 
     public void play() {
@@ -19,8 +25,9 @@ public class TicTacToeGame {
         field.printPlayingField();
 
 
+
         while (gameOn) {
-            char playerWhoMoves = moveCounter % 2 == 0 ? 'x' : 'o';
+            char playerWhoMoves = moveCounter % 2 == 0 ? 'X' : 'O';
             int[] move = promptPlayerInput(playerWhoMoves);
 
             field.enterMove(move, playerWhoMoves);
@@ -32,6 +39,7 @@ public class TicTacToeGame {
                 System.out.println("======================");
                 gameOn = false;
             }
+            // todo: if movecount 9? dann ist unentschieden
 
             moveCounter++;
 
@@ -46,8 +54,8 @@ public class TicTacToeGame {
         int[] moveCoordinates;
         try {
             moveCoordinates = evaluateInput(inputStringMove);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (IllegalArgumentException ex) {
+            System.err.println(ex.getMessage());
             return promptPlayerInput(xo);
         }
 
@@ -60,9 +68,15 @@ public class TicTacToeGame {
     }
 
 
+    // todo: alternative Eingabemethode überlegen, statt Koordinaten könnte auch das Numpad genutzt werden, also Eingabe
+    //  1 bis 9 für die Felder. Am elegantesten wäre es natürlich dies beim Start des Spiels auswählen zu können.
+    //  vielleicht bekommt die play() Methode eine Evaluate-Objekt übergeben, je nachdem welche Variante aufgerufen wird.
+    //  oder ich mache es einfach automatisch je nach Eingabe. Wenn Länge 2 dann a2 wenn Länge 1 dann 1-9
+
+    // todo: auch noch am anfang ein .toLowerCase und ein .trim einbauen als Normalisierung.
     private int[] evaluateInput(String userInput) {
         if (userInput.length() != 2) {
-            throw new IllegalArgumentException("Eingabe ungültig, (input falsche länge) bitte erneut probieren");
+            throw new IllegalArgumentException("Eingabe ungültig, (Input falsche Länge) bitte erneut probieren");
         }
         int i = userInput.charAt(0) - 'a';    // vorher so: - 97;
         int j = userInput.charAt(1) - '1';      // vorher so- 49;
