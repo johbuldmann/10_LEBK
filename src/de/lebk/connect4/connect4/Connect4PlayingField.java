@@ -32,7 +32,7 @@ public class Connect4PlayingField {
        fieldState[coordinates[0]][coordinates[1]] = input;
     }
 
-    public int isSquareEmpty(int collumIndex) {
+    public int findNextFreeRow(int collumIndex) {
 
         for (int i = 0; i < fieldState.length; i++) {
             if (fieldState[i][collumIndex].equals(" . ")) {

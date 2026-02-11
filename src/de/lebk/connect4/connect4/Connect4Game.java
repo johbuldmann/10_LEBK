@@ -18,7 +18,8 @@ public class Connect4Game {
         field.printPlayingField();
 
         while (gameOn) {
-            String playerWhoMoves = moveCounter % 2 == 0 ? " X " : " O ";
+//            String playerWhoMoves = moveCounter % 2 == 0 ? " X " : " O ";
+            String playerWhoMoves = moveCounter % 2 == 0 ? " 🔴" : " 🔵";
             int[] move = promptPlayerInput(playerWhoMoves);
 
             field.enterMove(move, playerWhoMoves);
@@ -53,7 +54,7 @@ public class Connect4Game {
             return promptPlayerInput(xo);
         }
 
-        int rowIndex = field.isSquareEmpty(collumnIndex);
+        int rowIndex = field.findNextFreeRow(collumnIndex);
         if (rowIndex == -1) {
             System.err.println("Die Spalte ist bereits voll, bitte andere Spalte angeben!");
             return promptPlayerInput(xo);
@@ -63,6 +64,7 @@ public class Connect4Game {
     }
 
     private int evaluateInput(String userInput) {
+        userInput = userInput.trim();
         if (userInput.length() != 1) {
             throw new IllegalArgumentException("Eingabe ungültig, (Input falsche Länge) bitte erneut probieren");
         }
