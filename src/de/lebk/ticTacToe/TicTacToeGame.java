@@ -13,7 +13,6 @@ public class TicTacToeGame {
     }
 
 
-
     // todo: überladene play methode für random start? x = x startet, o = o startet, r = random start
     //  Problem: Anzahl der Spielzüge dann unklar bzw off by one wenn ich zufällig bei 1 oder 0 starte..
     //  -> Startvalue separat speichern und dann relativ dazu die Spielzüge zähle n?
@@ -25,7 +24,6 @@ public class TicTacToeGame {
         field.printPlayingField();
 
 
-
         while (gameOn) {
             char playerWhoMoves = moveCounter % 2 == 0 ? 'X' : 'O';
             int[] move = promptPlayerInput(playerWhoMoves);
@@ -33,13 +31,19 @@ public class TicTacToeGame {
             field.enterMove(move, playerWhoMoves);
             field.printPlayingField();
 
-            if (moveCounter >= 4 && field.isThereWinner(playerWhoMoves)) {
+            if (moveCounter >= 4 && field.isThereWinner(playerWhoMoves, move)) {
                 System.out.println("======================");
                 System.out.println("Player '" + playerWhoMoves + "' hat gewonnen");
                 System.out.println("======================");
                 gameOn = false;
             }
-            // todo: if movecount 9? dann ist unentschieden
+
+            if (moveCounter >= 8) {
+                System.out.println("======================");
+                System.out.println("Das Spiel ist unentschieden ausgegangen.");
+                System.out.println("======================");
+                gameOn = false;
+            }
 
             moveCounter++;
 
@@ -48,7 +52,7 @@ public class TicTacToeGame {
     }
 
     private int[] promptPlayerInput(char xo) {
-        System.out.print("\nPlayer '" + xo + "' ist dran: Bitte Spielzug eingeben (z.B. a2)\n -> ");
+        System.out.print("\nPlayer '" + xo + "' ist dran: Bitte Spielzug eingeben (z.B. a2 oder mit Numpad 1-9)\n -> ");
         String inputStringMove = sc.nextLine();
 
         int[] moveCoordinates;
@@ -75,15 +79,30 @@ public class TicTacToeGame {
 
     // todo: auch noch am anfang ein .toLowerCase und ein .trim einbauen als Normalisierung.
     private int[] evaluateInput(String userInput) {
-        if (userInput.length() != 2) {
-            throw new IllegalArgumentException("Eingabe ungültig, (Input falsche Länge) bitte erneut probieren");
-        }
-        int i = userInput.charAt(0) - 'a';    // vorher so: - 97;
-        int j = userInput.charAt(1) - '1';      // vorher so- 49;
+        userInput = userInput.trim();
+
+        int i;
+        int j;
+
+        if (userInput.length() == 1) {
+            int numpadInput;
+            try {
+                numpadInput = Integer.parseInt(userInput);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Wenn Numpad-Eingabe nur eine Zahl 1-9 eingeben");
+            }
+            i = (numpadInput - 1) % 3;
+            j = (numpadInput -1) / 3;
+        } else if (userInput.length() == 2) {
+            i = userInput.charAt(0) - 'a';    // vorher so: - 97;
+            j = userInput.charAt(1) - '1';      // vorher so- 49;
 //        System.out.println("i:" + i + " j: " + j);
 
-        if (i < 0 || i > 2 || j < 0 || j > 2) {
-            throw new IllegalArgumentException("Eingabe ungültig, (i oder j zu groß/klein) bitte erneut probieren");
+            if (i < 0 || i > 2 || j < 0 || j > 2) {
+                throw new IllegalArgumentException("Eingabe ungültig, (i oder j zu groß/klein) bitte erneut probieren");
+            }
+        } else {
+            throw new IllegalArgumentException("Eingabe ungültig, (Input falsche Länge) bitte erneut probieren");
         }
 
         return new int[]{i, j};
@@ -91,3 +110,4 @@ public class TicTacToeGame {
 
 
 }
+

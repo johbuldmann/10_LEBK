@@ -2,7 +2,6 @@ package de.lebk.alteÜbungen;
 
 public class Freizeitaktivitaet {
     double preisOhneRabatt;
-    double rabattsatz;
     int anzahl;
     String ferienwohnung;
 
@@ -15,7 +14,7 @@ public class Freizeitaktivitaet {
 //    public double ermittelnRabattsatz() {
 //        boolean dritteUndweitereBuchung = (this.anzahl > 2);
 //        boolean preisDerFreizeitaktivitaet = (this.preisOhneRabatt > 100.0);
-//        boolean gebuchtZusammenhangMitFerienwohnung = false; // todo: was genau wird hier überprüft?
+//        boolean gebuchtZusammenhangMitFerienwohnung = false; // was genau wird hier überprüft?
 //
 //        double rabatt0 = 0.0;
 //        double rabatt5 = 0.05;
