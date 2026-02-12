@@ -1,4 +1,4 @@
-package de.lebk.connect4.connect4;
+package de.lebk.connect4;
 
 public class Connect4PlayingField {
     private String[][] fieldState = new String[6][7];

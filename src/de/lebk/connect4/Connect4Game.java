@@ -1,4 +1,4 @@
-package de.lebk.connect4.connect4;
+package de.lebk.connect4;
 
 import java.util.Scanner;
 
