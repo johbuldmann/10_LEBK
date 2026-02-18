@@ -1,7 +1,11 @@
 package de.lebk.connect4;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Connect4PlayingField {
     private String[][] fieldState = new String[6][7];
+    private List<Double> listTimeWinnerCheck = new ArrayList<>();
 
     public void printPlayingField() {
         System.out.println();
@@ -11,19 +15,19 @@ public class Connect4PlayingField {
         System.out.println(" |"+fieldState[2][0]+"|"+fieldState[2][1]+"|"+fieldState[2][2]+"|"+fieldState[2][3]+"|"+fieldState[2][4]+"|"+fieldState[2][5]+"|"+fieldState[2][6]+"|");
         System.out.println(" |"+fieldState[1][0]+"|"+fieldState[1][1]+"|"+fieldState[1][2]+"|"+fieldState[1][3]+"|"+fieldState[1][4]+"|"+fieldState[1][5]+"|"+fieldState[1][6]+"|");
         System.out.println(" |"+fieldState[0][0]+"|"+fieldState[0][1]+"|"+fieldState[0][2]+"|"+fieldState[0][3]+"|"+fieldState[0][4]+"|"+fieldState[0][5]+"|"+fieldState[0][6]+"|");
-        System.out.println(" + — + — + — + — + — + — + — +");
-        System.out.println("   1   2   3   4   5   6   7  ");
+        System.out.println(" + —  +  —  + —  + —  +  — +  —  + —  +");
+        System.out.println("   1     2    3    4     5    6    7  ");
         System.out.println();
     }
 
     public void cleanPlayingField() {
         fieldState = new String[][] {
-                {" . ", " . ", " . ", " . ", " . ", " . ", " . "},
-                {" . ", " . ", " . ", " . ", " . ", " . ", " . "},
-                {" . ", " . ", " . ", " . ", " . ", " . ", " . "},
-                {" . ", " . ", " . ", " . ", " . ", " . ", " . "},
-                {" . ", " . ", " . ", " . ", " . ", " . ", " . "},
-                {" . ", " . ", " . ", " . ", " . ", " . ", " . "}
+                {" ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ "},
+                {" ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ "},
+                {" ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ "},
+                {" ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ "},
+                {" ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ "},
+                {" ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ ", " ⚫ "}
         };
     }
 
@@ -35,7 +39,7 @@ public class Connect4PlayingField {
     public int findNextFreeRow(int collumIndex) {
 
         for (int i = 0; i < fieldState.length; i++) {
-            if (fieldState[i][collumIndex].equals(" . ")) {
+            if (fieldState[i][collumIndex].equals(" ⚫ ")) {
                 return i;
             }
         }
@@ -46,7 +50,7 @@ public class Connect4PlayingField {
 
 
     public boolean isThereWinner(String xo, int[] coordinates) {
-
+        long timeStart = System.nanoTime();
         int winCondition = 3;   // bei vier gewinnt ist das 4-1
         // Alternative Herangehensweise: von der zuletzt eingegebenen Zelle
         // ausgehend in alle 8 Richtungen gehen und zählen:
@@ -81,6 +85,9 @@ public class Connect4PlayingField {
             return true;
         }
 
+        double elapsedTimeForCheckingWinner = (System.nanoTime() - timeStart) / 1000.0;  // durch 1 mio für Millisekunden
+//        System.out.println("elapsedTimeForCheckingWinner = " + elapsedTimeForCheckingWinner);
+        listTimeWinnerCheck.add(elapsedTimeForCheckingWinner);
         // nichts gefunden also kein Winner:
         return false;
     }
@@ -106,5 +113,12 @@ public class Connect4PlayingField {
             }
         }
         return count;
+    }
+
+    public Double getTimeWinnerCheck() {
+        return listTimeWinnerCheck.stream()
+                .mapToDouble(Double::doubleValue)
+                .average()
+                .orElse(0.0);
     }
 }

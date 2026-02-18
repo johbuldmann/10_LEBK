@@ -19,16 +19,18 @@ public class Connect4Game {
 
         while (gameOn) {
 //            String playerWhoMoves = moveCounter % 2 == 0 ? " X " : " O ";
-            String playerWhoMoves = moveCounter % 2 == 0 ? " 🔴" : " 🔵";
+            String playerWhoMoves = moveCounter % 2 == 0 ? " 🔴 " : " 🔵 ";
             int[] move = promptPlayerInput(playerWhoMoves);
 
             field.enterMove(move, playerWhoMoves);
             field.printPlayingField();
 
-            if (moveCounter >= 4 && field.isThereWinner(playerWhoMoves, move)) {
+            if (/*moveCounter >= 4 && */ field.isThereWinner(playerWhoMoves, move)) {
                 System.out.println("======================");
                 System.out.println("Player '" + playerWhoMoves + "' hat gewonnen");
                 System.out.println("======================");
+                System.out.println("Durchschnittliche Zeit für den Check des Winners:");
+                System.out.printf("%.2f µs (Mikrosekunden (Millionstelsekunden))", field.getTimeWinnerCheck());
                 gameOn = false;
             }
 
