@@ -109,9 +109,6 @@ REST API und Grundlagen JPA
 - STDM: Diagramme: ER Diagramme und SQL-Übungen
 `;
 
-
-// hier die Konstanten mit den alten Texten:
-
 // 1. Benutzereingabe für die KW
 const kwInput = await tp.system.prompt("Welche Kalenderwoche (KW) soll verarbeitet werden?", tp.date.now("WW"));
 
