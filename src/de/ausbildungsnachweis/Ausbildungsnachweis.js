@@ -124,9 +124,14 @@ const sanitize = (text) => {
         .replace(/\$/g, "\\$");  // Dollarzeichen escapen
 };
 
+const sources = [];
+const noticeDuration = 20000;
 // 1. Daily Notes einlesen und säubern
 let dailyContent = "";
 for (const file of foundDailyNotes) {
+
+    new Notice(`Daily: ${file.name}`, noticeDuration)
+    sources.push(`${file.name}`);
     let content = await app.vault.read(file);
 
     // Wir splitten IMMER mit einem flexiblen Regex:
@@ -140,6 +145,10 @@ for (const file of foundDailyNotes) {
 // 2. Schulnotizen einlesen und säubern
 let schoolContent = "";
 for (const file of foundSchoolNotes) {
+
+    new Notice(`Schule: ${file.name}`, noticeDuration)
+    sources.push(`${file.name}`);
+
     let content = await app.vault.read(file);
 
     // Gleiche Logik wie oben
@@ -177,6 +186,12 @@ ERSTELLE JETZT DEN BERICHT FÜR KW ${kwInput}:
 
 console.log("Prompt wurde generiert und gesäubert.")
 
+
+// sources anfügen
+for (const source of sources) {
+    tR += `[[${source}]]\n`;
+}
+tR += "\n";
 
 // 4. KI-Anfrage & Dateierstellung ---
 new Notice("Sende Daten an Gemini... Bitte warten.");
