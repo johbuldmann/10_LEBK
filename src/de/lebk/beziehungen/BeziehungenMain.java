@@ -1,23 +1,33 @@
 package de.lebk.beziehungen;
 
+import de.lebk.beziehungen.models.Hobby;
+import de.lebk.beziehungen.models.Person;
+import de.lebk.beziehungen.models.ManyToManyVerwaltung;
+
 public class BeziehungenMain {
     public static void main(String[] args) {
 
         ManyToManyVerwaltung verwaltung = new ManyToManyVerwaltung();
 
-//        Person p1 = verwaltung.createPersonAndHobby("Dieter", "Fussball", verwaltung);
-        Person dieter = new Person("Dieter", "Fussball", verwaltung);
+        Person dieter = verwaltung.createPerson("Dieter", "Fussball");
+        Person max = verwaltung.createPerson("Max", "Fussball");
 
-        System.out.println(dieter.toString());
+        Hobby fussball = verwaltung.getHobby("Fussball");
+        Hobby paddle = verwaltung.createHobby("Paddle", "Dieter");
+        Hobby handball = verwaltung.createHobby("Handball", "Dieter");
 
-        System.out.println(verwaltung.getPerson("Max"));
+        System.out.println(verwaltung.getHobbyList());
 
-        // fixme: das ist hier so nicht erlaubt, weil Hobby wird ohne eine Person in dem Moment angelegt:
-//        Hobby handball = new Hobby("Handball");
-//        p1.addHobby(handball);
-//        p1.addHobby(new Hobby("Handball"));
-//        System.out.println(p1.toString());
-//
-//        System.out.println();
+//        System.out.println(dieter.toString());
+//        dieter.addHobby("Handball");
+
+
+        System.out.println(dieter);
+
+        System.out.println(fussball);
+        System.out.println(max);
+        System.out.println(paddle);
+
+//        Person person = new Person("Dieter");
     }
 }
