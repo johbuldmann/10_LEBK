@@ -40,9 +40,6 @@ const example3 = await readFileSafe("50 Ausbildung/Ausbildungsnachweise/2026/Aus
 // Jetzt kannst du prüfen, ob alles da ist
 if (instruction === "" || example1 === "") {
     tR += "⚠️ Fehler beim Laden der Quelldateien. Siehe Notices oben rechts.";
-} else {
-    // Hier geht dein restlicher Prompt-Code weiter...
-    tR += "Dateien erfolgreich geladen!";
 }
 
 // 1. Benutzereingabe für die KW
@@ -128,9 +125,14 @@ const sanitize = (text) => {
         .replace(/\$/g, "\\$");  // Dollarzeichen escapen
 };
 
+let sources = [];
+const noticeDuration = 20000;
 // 1. Daily Notes einlesen und säubern
 let dailyContent = "";
 for (const file of foundDailyNotes) {
+
+    new Notice(`Daily: ${file.name}`, noticeDuration)
+    sources.push(`${file.name}`);
     let content = await app.vault.read(file);
 
     // Wir splitten IMMER mit einem flexiblen Regex:
@@ -144,6 +146,10 @@ for (const file of foundDailyNotes) {
 // 2. Schulnotizen einlesen und säubern
 let schoolContent = "";
 for (const file of foundSchoolNotes) {
+
+    new Notice(`Schule: ${file.name}`, noticeDuration)
+    sources.push(`${file.name}`);
+
     let content = await app.vault.read(file);
 
     // Gleiche Logik wie oben
@@ -153,6 +159,26 @@ for (const file of foundSchoolNotes) {
     schoolContent += `\n--- DATEI: ${file.name} ---\n${content.trim()}\n`;
 }
 
+
+// 5. PROPERTIES (YAML) GENERIEREN ---
+let properties = `---\n`;
+properties += `type: debug-prompt\n`;
+properties += `tags:\n  - debug/gemini\n`;
+properties += `kw: ${kwInput}\n`;
+properties += `year: ${year}\n`;
+properties += `sources:\n`;
+for (const source of sources) {
+    properties += `  - "[[${source}]]"\n`;
+}
+properties += `---\n\n`;
+
+tR += properties;
+
+// Quellen für einfache Navigation im Text anfügen
+for (const source of sources) {
+    tR += `[[${source}]]\n`;
+}
+tR += "\n\n";
 
 // 3. Den Prompt final zusammensetzen (Deine Variablen von vorhin nutzen)
 // Hinweis: 'instruction' und 'examples' müssen im Skript definiert sein (siehe unten)
@@ -182,7 +208,11 @@ ERSTELLE JETZT DEN BERICHT FÜR KW ${kwInput}:
 
 console.log("Prompt wurde generiert und gesäubert.")
 
-tR += finalPrompt;
+tR += `
+\`\`\`
+${finalPrompt}
+\`\`\`
+`;
 
 // 2. Dateinamen und Pfad bestimmen
 const baseFileName = `Ausbildungsnachweis KW${kwInput}`;

@@ -1,4 +1,11 @@
 <%*
+// --- GEMINI MODELL AUSWAHL ---
+// const model = 'gemini-3-flash-preview';
+const model = 'gemini-flash-latest';
+// const model = 'gemini-3.1-pro-preview';
+// const model = 'gemini-2.5-pro';
+// const model = 'gemini-3-flash-preview';
+
 // API Keys einlesen aus separater Datei
 const secretsFile = app.vault.getAbstractFileByPath("99 Archiv/15 Templates/secrets.md");
 
@@ -186,16 +193,35 @@ ERSTELLE JETZT DEN BERICHT FÜR KW ${kwInput}:
 
 console.log("Prompt wurde generiert und gesäubert.")
 
+// --- PROPERTIES (YAML) GENERIEREN ---
+// Wir erstellen den YAML Block ganz am Anfang des Outputs
+let properties = `---\n`;
+properties += `type: ausbildungsnachweis\n`;
+properties += `tags:\n  - ausbildung/nachweis\n`;
+properties += `kw: ${kwInput}\n`;
+properties += `year: ${year}\n`;
+properties += `status: open\n`; // Mögliche Werte: offen, eingereicht, erledigt
+properties += `created: ${tp.date.now("YYYY-MM-DD")}\n`;
+properties += `sources: \n`;
+for (const source of sources) {
+    properties += `  - "[[${source}]]"\n`;
+}
+properties += `---\n\n`;
 
-// sources anfügen
+// Zuerst die Properties in den Output schreiben
+tR += properties;
+
+// sources auch in die Datei anfügen
 for (const source of sources) {
     tR += `[[${source}]]\n`;
 }
-tR += "\n";
+
+tR += '\n';
 
 // 4. KI-Anfrage & Dateierstellung ---
 new Notice("Sende Daten an Gemini... Bitte warten.");
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
+
+const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
 
 const payload = {
     contents: [{
@@ -230,20 +256,33 @@ try {
 
 // 2. Dateinamen und Pfad bestimmen
 const baseFileName = `Ausbildungsnachweis KW${kwInput}`;
-const currentFolder = tp.file.folder(true); // Der Ordner, in dem das Template aufgerufen wurde
+// Sicherstellen, dass wir einen Ordner-Pfad haben
+let currentFolder = tp.file.folder(true);
+if (currentFolder === "/") currentFolder = ""; // Root-Verzeichnis fix
+
 let finalFileName = baseFileName;
 let fileCount = 1;
 
-// 3. Prüfen, ob Datei existiert
-while (app.vault.getAbstractFileByPath(`${currentFolder}/${finalFileName}.md`)) {
-    finalFileName = `${baseFileName}_${fileCount}`;
+// 3. Prüfen, ob Datei existiert (mit Sicherheitscheck)
+while (app.vault.getAbstractFileByPath(`${currentFolder ? currentFolder + "/" : ""}${finalFileName}.md`)) {
+    // Falls die aktuelle Datei schon so heißt wie das Ziel, nicht umbenennen/hochzählen
     if (tp.file.title === finalFileName) break;
 
-    fileCount++;
     finalFileName = `${baseFileName}_${fileCount}`;
+    fileCount++;
 }
 
-await tp.file.rename(finalFileName);
-new Notice(`Erfolg! ${finalFileName}.md wurde erstellt.`);
+// 4. Umbenennen mit Fehlerabfang
+try {
+    if (tp.file.title !== finalFileName) {
+        await tp.file.rename(finalFileName);
+        new Notice(`Umbenannt zu: ${finalFileName}`);
+    }
+} catch (renameError) {
+    console.error("Fehler beim Umbenennen:", renameError);
+    new Notice("⚠️ Konnte Datei nicht automatisch umbenennen.");
+}
 
+new Notice(`Fertig!`);
 %>
+
