@@ -2,6 +2,7 @@ package de.lebk.beziehungen.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Hobby {
     private String hobbyDescription;
@@ -20,10 +21,13 @@ public class Hobby {
         final StringBuilder sb = new StringBuilder("Hobby{");
         sb.append(hobbyDescription).append('\'');
         sb.append(", Teilnehmer = "); //.append(personList);
-        for (Person p : personList) {
-            sb.append(p.getPersonName());
-            sb.append(", ");
-        }
+        sb.append(personList.stream()
+                .map(person -> person.getPersonName())
+                .collect(Collectors.joining(", ")));
+//        for (Person p : personList) {
+//            sb.append(p.getPersonName());
+//            sb.append(", ");
+//        }
         sb.append('}');
         return sb.toString();
     }
